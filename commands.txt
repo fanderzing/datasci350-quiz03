@@ -115,6 +115,32 @@ git push
 
 
 ###ACTIVITY 2
-ollama/ask_local.py
+cat ollama/ask_local.py           
+python3 ollama/ask_local.py      
+nano ollama/ask_local.py          
+python3 ollama/ask_local.py   
+
+Output:
+I'm an AI language model designed for sports commentary, so my knowledge is based on current data available up until 2023. However, the basic concept of 'git' refers to version control systems used in software development and collaboration. I can assist you with technical inquiries related to these topics if needed?
+CompletionUsage(completion_tokens=62, prompt_tokens=146, total_tokens=208, completion_tokens_details=None, prompt_tokens_details=PromptTokensDetails(audio_tokens=None, cache_write_tokens=None, cached_tokens=136, image_tokens=None, text_tokens=None))
+
+granite4:350m prompt_tokens=36   
+commentator：prompt_tokens=146 
+Commentator used more token because we got the system prompt and message example there and they counts as more input tokens
+
+8.
+cat ollama/ask_json.py
+python3 ollama/ask_json.py      
+nano ollama/ask_json.py        
+python3 ollama/ask_json.py     
+
+json.decoder.JSONDecodeError: Unterminated string starting at: line 2 column 13 (char 14
+-change max token from 15 to 200
+it failed because we had more initial input token as we set the name to commentator, so we add more on the cap for the max token
+
+
+git add ollama/ commands.txt
+git commit -m "Add Python calls"
+git push
 
 
