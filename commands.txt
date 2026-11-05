@@ -1,0 +1,112 @@
+# Setup
+git clone https://github.com/fanderzing/datasci350-quiz03.git   Download my fork of the quiz repo to my laptop
+cd datasci350-quiz03                                             Move into the repo folder
+touch commands.txt                                               
+
+
+#download granite4:350m
+ollama pull granite4:350m  
+ollama show granite4:350m     
+ollama ls                     
+
+Output:
+pulling 431e956cac90: 100% ▕████████▏ 708 MB   
+
+NAME                                                                         ID              SIZE      MODIFIED               
+granite4:350m                                                                5eee845b49c4    708 MB    Less than a second ago    
+embeddinggemma:latest                                                        3a2d262bdb75    621 MB    6 days ago                
+embeddinggemma:latest                                                        82f094e4c0e1    621 MB    6 days ago                
+llamacpp:82f094e4c0e19bc4208c692996d4f1ecf14e82a8dee579ee1d2ca1175260058e    82f094e4c0e1    621 MB    6 days ago                
+llama3.2:1b                                                                  baf6a787fdff    1.3 GB    7 days ago                
+coach:latest                                                                 c2eaaf9328ae    1.3 GB    13 days ago               
+sorter-hot:latest                                                            618c49a2a2e2    1.3 GB    13 days ago               
+sorter:latest                                                                a68fd7b606ea    1.3 GB    13 days ago               
+captain:latest                                                               c2eaaf9328ae
+
+
+Calculate the size based on the rules in L12 where: 
+parameters × bits ÷ 8 bytes
+So we predicted: 352.38 M * 16 / 8 = 704.760 MB 
+However, ollama ls reports 708 MB, the actual file is about 3 MB bigger, maybe it because of some extra small data
+
+
+nano ollama/Modelfile
+
+
+FROM granite4:350m
+
+PARAMETER temperature 1.0
+PARAMETER repeat_penalty 1.2
+
+SYSTEM """
+You are an over-excited live sports commentator, broadcasting on air.
+Follow these three rules in every answer:
+1. Answer are at most four sentences
+2. Always address the user as "sports fans"
+3. If you do not know something, say so on air
+"""
+
+cat ollama/Modelfile
+
+
+ollama create commentator -f ollama/Modelfile    
+Nothing is downloading at this stage is because create only adds a layer of prompting inside the granite4:350m model I just downloaded 
+
+ollama ls
+
+#Running the two prompts
+ollama run commentator "What does git commit do?"                     
+ollama run commentator "What is the weather in Atlanta right now?"   
+
+
+#Output:
+Sports fans sports! Git commit is a command used to modify or add content for files that have been committed in version control systems like GitHub or GitLab. It allows developers to track changes and revert commits if necessary by making new versions of code available over time with history logs to maintain documentation consistency across projects
+
+I'm an artificial intelligence and don't have real-time data capabilities to provide current weather conditions. Could I assist with another sports-related query for your viewers today?
+
+
+Prompt 1
+Rule 1: held
+Rule 2: held
+Rule 3: held
+
+Prompt 2: "What is the weather in Atlanta right now?"
+(paste the response here)
+Rule 1 (at most four sentences): held. The answer has 2 sentences.
+Rule 2 (addresses the user as "sports fans"): broke. It says "your viewers" instead.
+Rule 3 (says on air when it does not know): held. It says it has no real-time data.
+
+
+
+nano ollama/Modelfile                          
+ollama create commentator -f ollama/Modelfile
+ollama run commentator "What is the weather in Atlanta right now?
+ollama run commentator "What is the weather in Atlanta right now?" 
+ollama run commentator "What is the weather in Atlanta right now?"  
+
+MESSAGE user What is the weather like in Michigan today?
+MESSAGE assistant """What a delightful request, sports fan,though I must confess I cannot reach the internet fromhere. I have no way to see today's weather, and I
+would rather admit that than invent one. Might I help
+you draft a search instead?"""
+
+
+Output:
+1.
+I'm sorry for any confusion earlier but currently there is no real-time information 
+available on the local forecast in Atlanta. Could you please check an online source 
+again later to get accurate details about today's conditions here? I appreciate 
+your interest though and look forward to discussing sports further with you soon
+
+2. That sounds like an interesting query sports fans. Could you please confirm what 
+time it is for me to provide accurate information? As my skills are limited, I can 
+only present forecasts based on current data available at the moment.
+
+3. Apologies for not being able to provide real-time updates via my system rules. 
+Could you please specify your location or what information about the environment 
+would interest you more today, such as temperature conditions or specific details 
+of any area nearby?
+
+git status
+git add ollama/ commands.txt
+
+
