@@ -106,7 +106,15 @@ Could you please specify your location or what information about the environment
 would interest you more today, such as temperature conditions or specific details 
 of any area nearby?
 
+The model admitted three times that it didn't know
+
 git status
 git add ollama/ commands.txt
+git commit -m "Add commentator chatbot"
+git push
+
+
+###ACTIVITY 2
+ollama/ask_local.py
 
 
