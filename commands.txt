@@ -144,8 +144,102 @@ git commit -m "Add Python calls"
 git push
 
 
-
-
 ### ACTIVITY 3
+instance: name = 350quiz3
+Ubuntu Server 26.04 LTS, 
+t3.micro, new ED25519 key pair 
+
+
+ls ~/Downloads/*.pem
+chmod 400 ~/Downloads/quiz3.pem
+ssh -i ~/Downloads/quiz3.pem ubuntu@ec2-52-14-41-167.us-east-2.compute.amazonaws.com
+ED25519 key fingerprint is: SHA256:z7LqVr5Cm5eFJvCVeHN9HIMB4fJXr+CndMM1LcIfIrM
+This key is not known by any other names.
+Welcome to Ubuntu 26.04.1 LTS (GNU/Linux 7.0.0-1014-aws x86_64)
+
+ * Documentation:  https://docs.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Thu Nov  5 23:59:30 UTC 2026
+
+  System load:  0.05              Temperature:           -273.1 C
+  Usage of /:   30.4% of 6.61GB   Processes:             120
+  Memory usage: 25%               Users logged in:       0
+  Swap usage:   0%                IPv4 address for ens5: 172.31.23.31
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+
+sudo apt update
+sudo apt install -y python3-pandas python3-matplotlib python3-seaborn
+
+Q12:
+cd ~/datasci350-quiz03scp -i /Users/shuyingxie/Downloads/quiz3.pem aws/traffic_analysis.py aws/website_traffic.txt ubuntu@ec2-52-14-41-167.us-east-2.compute.amazonaws.com:~
+
+Output：
+traffic_analysis.py                                              100% 1983    61.1KB/s   00:00    
+website_traffic.txt                                              100% 2107    67.9KB/s   00:00 
+
+ls
+
+#Q13
+python3 traffic_analysis.py > results.txt
+cat /var/lib/cloud/data/instance-id >> results.txt
+sha256sum results.txt > fingerprint.txt
+ls
+
+
+aws		fingerprint.txt	rag		results.txt
+commands.txt	ollama		README.md\
+
+fingerprint.txt  results.txt  traffic_analysis.png  traffic_analysis.py  website_traffic.txt
+
+
+#14
+scp -i /Users/shuyingxie/Downloads/quiz3.pem ubuntu@ec2-52-14-41-167.us-east-2.compute.amazonaws.com:{results.txt,fingerprint.txt,traffic_analysis.png} aws/
+
+ls aws/
+
+cat aws/results.txt
+
+Website Traffic Analysis:
+========================
+Total days analysed: 30
+Average page views: 2366
+Average unique visitors: 1973
+Peak traffic day: 2025-05-25 with 2680 unique visitors
+Average bounce rate: 24.2%
+Analysis complete. Results saved to 'traffic_analysis.png'
+i-0f01338e2e5fb9c65
+
+#15
+exit
+
+git status
+git add .
+git commit -m "Add AWS analysis results"
+git push
+
+
+
+
 
 
